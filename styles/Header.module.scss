@@ -1,0 +1,58 @@
+@import "colors";
+
+.container{
+    display: flex;
+    width: 100%;
+    z-index: 999;
+    position: fixed;
+    top: 0;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: $mainBackground;
+}
+
+.logo{
+    font-size: 32px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.category{
+    color: inherit;
+    cursor: pointer;
+    margin: 0 16px;
+    position: relative;
+    font-size: 17px;
+    font-weight: 600;
+
+    &:after{
+        content: "";
+        width: 100%;
+        height: 0;
+        opacity: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 1;
+        position: absolute;
+        transition: all 200ms linear;
+        background-color: rgba(255,255,255,0.5);
+    }
+
+    &:hover:after{
+        height: 3px;
+        opacity: 1;
+    }
+}
+
+.categoryActive{
+    @extend .category;
+
+    &:after{
+        height: 3px;
+        opacity: 1;
+    }
+}
