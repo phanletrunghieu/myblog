@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react'
-import Meta from '../components/Meta'
+import Meta from '../../components/Meta'
 import matter from 'gray-matter'
-import PostBox from '../components/PostBox'
-import Header from '../components/Header'
-import Paginator from '../components/Paginator'
+import PostBox from '../../components/PostBox'
+import Header from '../../components/Header'
+import Paginator from '../../components/Paginator'
 
 let perPage = 3
 
-export default class Home extends PureComponent {
+export default class CategoryTemplate extends PureComponent {
     render() {
         const {allBlogs, title, description, categories, currentPage, totalPage} = this.props
         return (
@@ -39,17 +39,18 @@ export default class Home extends PureComponent {
     }
 }
 
-Home.defaultProps = {
+CategoryTemplate.defaultProps = {
     allBlogs: [],
     categories: [],
 }
 
 export async function getStaticProps(ctx) {
-    let page = 1
+    const { slug } = ctx.params
+    let page = slug
     
-    const siteConfig = await import(`../data/config.json`)
+    const siteConfig = await import(`../../data/config.json`)
     //get posts & context from folder
-    let context = require.context('../posts', true, /\.md$/)
+    let context = require.context('../../posts', true, /\.md$/)
     const keys = context.keys()
     const values = keys.map(context)
 
@@ -96,5 +97,20 @@ export async function getStaticProps(ctx) {
             currentPage: page,
             totalPage,
         },
+    }
+}
+
+export async function getStaticPaths() {
+    let context = require.context('../../posts', true, /\.md$/)
+    const keys = context.keys()
+    
+    let numPage = Math.ceil(keys.length/perPage)
+    
+    // create paths with `slug` param
+    let paths = [...Array(numPage).keys()].map(k => `/page/${k+1}`)
+    
+    return {
+        paths,
+        fallback: true,
     }
 }

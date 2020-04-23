@@ -15,7 +15,7 @@ export default class Header extends PureComponent {
                         categories.map(category => (
                             <Link
                                 key={category}
-                                href="/category/[slug]"
+                                href="/category/[...slug]"
                                 as={`/category/${getSlug(category)}`}
                             >
                                 <span className={currentSlug==getSlug(category) ? styles.categoryActive : styles.category}>{category}</span>

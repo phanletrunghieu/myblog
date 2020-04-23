@@ -3,15 +3,18 @@ import Meta from '../../components/Meta'
 import matter from 'gray-matter'
 import PostBox from '../../components/PostBox'
 import Header from '../../components/Header'
+import Paginator from '../../components/Paginator'
 import { getSlug } from '../../utils/common'
+
+let perPage = 3
 
 export default class CategoryTemplate extends PureComponent {
     render() {
-        const {allBlogs, title, description, categories, slug} = this.props
-        
+        const {allBlogs, title, description, categories, slug, currentPage, totalPage} = this.props
+        let currentCategory = categories.find(c => getSlug(c) == slug)
         return (
             <div>
-                <Meta title={title} description={description} />
+                <Meta title={`${currentCategory} - ${title}`} description={description} />
                 <Header categories={categories} currentSlug={slug} />
                 <div style={{marginTop: 80}}>
                     {
@@ -27,6 +30,12 @@ export default class CategoryTemplate extends PureComponent {
                         ))
                     }
                 </div>
+                <Paginator
+                    count={totalPage}
+                    current={currentPage}
+                    href="/category/[...slug]"
+                    baseUrl={"/category/"+getSlug(currentCategory)}
+                />
             </div>
         )
     }
@@ -34,10 +43,23 @@ export default class CategoryTemplate extends PureComponent {
 
 CategoryTemplate.defaultProps = {
     allBlogs: [],
+    categories: [],
 }
 
 export async function getStaticProps(ctx) {
     const { slug } = ctx.params
+    let categorySlug = ""
+    let page = 1
+    if (Array.isArray(slug)) {
+        if (slug.length > 0) {
+            categorySlug = slug[0]
+        }
+
+        if (slug.length > 1) {
+            page = slug[1]
+        }
+    }
+    
     const siteConfig = await import(`../../data/config.json`)
     //get posts & context from folder
     let context = require.context('../../posts', true, /\.md$/)
@@ -64,7 +86,7 @@ export async function getStaticProps(ctx) {
 
         categories = categories.concat(document.data.categories)
 
-        let findIndex = document.data.categories.findIndex(c => getSlug(c) == slug)
+        let findIndex = document.data.categories.findIndex(c => getSlug(c) == categorySlug)
         if (findIndex != -1) {
             posts.push({
                 frontmatter: document.data,
@@ -74,16 +96,23 @@ export async function getStaticProps(ctx) {
         }
     })
 
+    posts.sort((a, b)=>new Date(b.frontmatter.date) - new Date(a.frontmatter.date))
+
+    let totalPage = Math.ceil(posts.length/perPage)
+    posts = posts.slice((page-1)*perPage, page*perPage)
+
     // remove duplicate
     categories = categories.filter((c, index, arr) => arr.indexOf(c) == index)
     
     return {
         props: {
-            slug,
+            slug: categorySlug,
             categories,
             allBlogs: posts,
             title: siteConfig.default.title,
             description: siteConfig.default.description,
+            currentPage: page,
+            totalPage,
         },
     }
 }
@@ -94,6 +123,7 @@ export async function getStaticPaths() {
     const values = keys.map(context)
     
     let slugs = []
+    let count = []
     keys.map((key, index) => {
         const value = values[index]
         // Parse yaml metadata & markdownbody in document
@@ -107,12 +137,21 @@ export async function getStaticPaths() {
             let index = slugs.findIndex(c => c == slug)
             if (index == -1) {
                 slugs.push(slug)
+                count.push(1)
+            } else {
+                count[index]++
             }
         });
     })
 
     // create paths with `slug` param
-    const paths = slugs.map(slug => `/category/${slug}`)
+    let paths = []
+    slugs.forEach((slug, i) => {
+        paths.push(`/category/${slug}`)
+        let numPage = Math.ceil(count[i]/perPage)
+        let pathsWithPagination = [...Array(numPage).keys()].map(k => `/category/${slug}/${k+1}`)
+        paths = paths.concat(pathsWithPagination)
+    });
     
     return {
         paths,

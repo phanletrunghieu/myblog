@@ -1,0 +1,26 @@
+.container{
+    text-align: center;
+    margin: 30px 0;
+}
+
+.button{
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    text-align: center;
+    margin: 0 5px;
+    line-height: 32px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.buttonActive{
+    @extend .button;
+    border: 1px #fff solid;
+}
+
+.buttonDisable{
+    @extend .button;
+    border: 1px #3a3a3a solid;
+    color: #3a3a3a;
+}
