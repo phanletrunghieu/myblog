@@ -3,6 +3,7 @@ import Meta from '../components/Meta'
 import matter from 'gray-matter'
 import PostBox from '../components/PostBox'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 import Paginator from '../components/Paginator'
 
 let perPage = 3
@@ -35,6 +36,7 @@ export default class Home extends PureComponent {
                     href="/page/[slug]"
                     baseUrl="/page"
                 />
+                <Footer/>
             </div>
         )
     }

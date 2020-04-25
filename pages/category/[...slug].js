@@ -3,6 +3,7 @@ import Meta from '../../components/Meta'
 import matter from 'gray-matter'
 import PostBox from '../../components/PostBox'
 import Header from '../../components/Header'
+import Footer from '../../components/Footer'
 import Paginator from '../../components/Paginator'
 import { getSlug } from '../../utils/common'
 
@@ -37,6 +38,7 @@ export default class CategoryTemplate extends PureComponent {
                     href="/category/[...slug]"
                     baseUrl={"/category/"+getSlug(currentCategory)}
                 />
+                <Footer/>
             </div>
         )
     }
