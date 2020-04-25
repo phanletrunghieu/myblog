@@ -1,11 +1,11 @@
 ---
 author: Siddhartha Mukherjee
-date: '2019-07-10T07:00:00.000Z'
+date: '2018-07-10T07:00:00.000Z'
 image: /alfons-taekema-bali.jpg
 title: 'Terminator: Dark Fate'
 categories:
-    - Work
-    - Home
+    - Cat 1
+    - Cat 2
 ---
 
 More than two decades have passed since sarah connor prevented judgment day, changed the future, and re-wrote the fate of the human race. dani ramos is living a simple life in mexico city with her brother and father when a highly advanced and deadly new terminator – a rev-9 – travels back through time to hunt and kill her. dani's survival depends on her joining forces with two warriors: grace, an enhanced super-soldier from the future, and a b.

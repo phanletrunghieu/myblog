@@ -33,8 +33,7 @@ export async function getStaticProps(ctx) {
 
 export async function getStaticPaths() {
     //get all .md files in the posts dir
-    const posts = glob.sync('../../posts/**/*.md')
-  
+    const posts = glob.sync('posts/*.md')
     //remove path and extension to leave filename only
     const postSlugs = posts.map(file =>
         getSlug(file).slice(0, -3)
