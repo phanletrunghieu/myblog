@@ -1,20 +1,49 @@
 import React, { PureComponent } from 'react'
 import Meta from '../../components/Meta'
+import Header from '../../components/Header'
+import Footer from '../../components/Footer'
 import matter from 'gray-matter'
 import ReactMarkdown from 'react-markdown'
-import {getSlug} from '../../utils/common'
+import {getSlug, reformatDate, truncateSummary} from '../../utils/common'
+import {getCategory} from '../../utils/category'
+import styles from '../../styles/Post.module.scss'
 const glob = require('glob')
 
 export default class BlogTemplate extends PureComponent {
     render() {
-        const {siteTitle, markdownBody} = this.props
+        const {siteTitle, markdownBody, frontmatter, categories} = this.props
+        
+        if(!frontmatter) return null
+        
         return (
             <div>
-                <Meta title={siteTitle} />
-                <ReactMarkdown source={markdownBody} />
+                <Meta
+                    title={`${frontmatter.title} - ${siteTitle}`}
+                    description={truncateSummary(markdownBody)}
+                    image={frontmatter.image}
+                />
+                <Header categories={categories} />
+                <div style={{marginTop: 120, marginBottom: 50}}>
+                    <div className={styles.headerContainer}>
+                        <h1>{frontmatter.title}</h1>
+                        <div className={styles.subHeader}>
+                            <p className={styles.date}>{reformatDate(frontmatter.date)}</p>
+                            <span className={styles.readDuration}>{frontmatter.readDuration}</span>
+                        </div>
+                    </div>
+                    <img src={frontmatter.image} />
+                    <div className={styles.content}>
+                        <ReactMarkdown source={markdownBody} />
+                    </div>
+                </div>
+                <Footer/>
             </div>
         )
     }
+}
+
+BlogTemplate.defaultProps = {
+    categories: [],
 }
 
 export async function getStaticProps(ctx) {
@@ -22,11 +51,15 @@ export async function getStaticProps(ctx) {
     const siteConfig = await import(`../../data/config.json`)
     const content = await import(`../../posts/${slug}.md`)
     const data = matter(content.default)
+
+    let categories = getCategory()
+
     return {
         props: {
             siteTitle: siteConfig.title,
             frontmatter: data.data,
             markdownBody: data.content,
+            categories,
         },
     }
 }

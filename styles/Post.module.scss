@@ -1,0 +1,50 @@
+.container-size{
+    max-width: 680px;
+    margin: auto;
+    padding: 0 15px;
+}
+
+.headerContainer{
+    @extend .container-size;
+
+    h1 {
+        font-size: 40px;
+    }
+}
+
+.subHeader{
+    margin-bottom: 16px;
+
+    &>*{
+        display: inline-block;
+        margin-right: 16px;
+    }
+}
+.date{
+    color: #9ac7fa;
+    font-size: 16px;
+    margin-top: 8px;
+    font-weight: 500;
+}
+
+.readDuration{
+    padding: 8px;
+    margin-top: 16px;
+    border: 1px solid rgba(255,255,255,0.13);
+    font-size: 13px;
+}
+
+.content{
+    @extend .container-size;
+    font-size: 21px;
+    line-height: 1.58;
+    word-break: break-word;
+
+    p {
+        margin-top: 2em;
+    }
+    
+    a{
+        color: #4092da;
+    }
+}

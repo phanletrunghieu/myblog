@@ -3,6 +3,7 @@ author: Siddhartha Mukherjee
 date: '2018-07-10T07:00:00.000Z'
 image: /alfons-taekema-bali.jpg
 title: 'Terminator: Dark Fate'
+readDuration: 20 min
 categories:
     - Cat 1
     - Cat 2

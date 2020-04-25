@@ -1,6 +1,9 @@
+@import "devices";
+
 .container{
     border-radius: 10px;
-    width: 800px;
+    max-width: 800px;
+    width: 90%;
     height: 350px;
     position: relative;
     margin: 16px auto;
@@ -22,6 +25,13 @@
     height: 100%;
     border-radius: 10px;
     z-index: 2;
+
+    @media #{$mobile} {
+        position: absolute;
+        bottom: 0;
+        background: linear-gradient(to top, #0d0d0c 0%, #000000de 30%, #00000096 70%, transparent 100%);
+        height: auto;
+    }
 }
 
 .header{
@@ -29,6 +39,15 @@
     height: 40%;
     padding: 24px;
     position: relative;
+
+    @media #{$mobile} {
+        width: 100%;
+        padding: 0 16px;
+
+        h1 {
+            font-size: 22px;
+        }
+    }
 }
 
 .date{
@@ -52,6 +71,12 @@
     padding: 24px;
     font-size: 13px;
     color: #cfd6e1;
+
+    @media #{$mobile} {
+        width: 100%;
+        height: auto;
+        padding: 16px;
+    }
 }
 
 .imageContainer{
@@ -61,7 +86,13 @@
     width: 80%;
     height: 100%;
     background-size: cover;
-    background-position: -100% 10%;
+    background-position: center;
+    background-repeat: no-repeat;
     border-radius: 10px;
     z-index: 1;
+
+    @media #{$mobile} {
+        position: relative;
+        width: 100%;
+    }
 }

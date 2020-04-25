@@ -3,6 +3,7 @@ author: Siddhartha Mukherjee
 date: '2019-07-10T07:00:00.000Z'
 image: https://image.tmdb.org/t/p/original/nRXO2SnOA75OsWhNhXstHB8ZmI3.jpg
 title: 'Bali —body, mind & soul'
+readDuration: 10 min
 categories:
     - Cate 1
 ---
