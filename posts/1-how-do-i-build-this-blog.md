@@ -1,11 +1,11 @@
 ---
-author: Siddhartha Mukherjee
-date: '2018-07-10T07:00:00.000Z'
-image: /alfons-taekema-bali.jpg
-title: 'Terminator: Dark Fate'
+author: Hieu Phan
+date: '2020-05-22T17:06:00.000Z'
+image: /images/1-how-do-i-build-this-blog.jpg
+title: 'How do I build this blog?'
 readDuration: 20 min
 categories:
-    - Cat 1
+    - ReactJS
     - Cat 2
 ---
 

@@ -6,7 +6,7 @@ import {reformatDate, truncateSummary} from '../utils/common'
 
 export default class PostBox extends PureComponent {
     render() {
-        const {slug, image, title, date, markdownBody} = this.props
+        const {slug, image, title, date, readDuration, markdownBody} = this.props
         return (
             <Link key={slug} href="/post/[slug]" as={`/post/${slug}`}>
                 <div className={styles.container}>
@@ -15,7 +15,7 @@ export default class PostBox extends PureComponent {
                         <header className={styles.header}>
                             <h1>{title}</h1>
                             <p className={styles.date}>{reformatDate(date)}</p>
-                            <span className={styles.readDuration}>128 min</span>
+                            <span className={styles.readDuration}>{readDuration}</span>
                         </header>
                         <div className={styles.body}>
                             <ReactMarkdown

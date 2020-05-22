@@ -10,10 +10,35 @@ import styles from '../../styles/Post.module.scss'
 const glob = require('glob')
 
 export default class BlogTemplate extends PureComponent {
+    state = {
+        screenWidth: 0,
+    }
+
+    updateScreenWidth = () => {
+        this.setState({screenWidth: window.document.body.clientWidth})
+    }
+
+    componentDidMount(){
+        this.updateScreenWidth()
+        window.addEventListener("resize", this.updateScreenWidth)
+    }
+
+    componentWillUnmount(){
+        window.removeEventListener("resize", this.updateScreenWidth)
+    }
+
     render() {
         const {siteTitle, markdownBody, frontmatter, categories} = this.props
         
         if(!frontmatter) return null
+
+        const imageStyle = {
+            backgroundImage: `url(${frontmatter.image})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            width: "100%",
+            height: this.state.screenWidth / 1265 * 500,
+        }
         
         return (
             <div>
@@ -31,7 +56,7 @@ export default class BlogTemplate extends PureComponent {
                             <span className={styles.readDuration}>{frontmatter.readDuration}</span>
                         </div>
                     </div>
-                    <img src={frontmatter.image} />
+                    <div style={imageStyle} />
                     <div className={styles.content}>
                         <ReactMarkdown source={markdownBody} />
                     </div>
