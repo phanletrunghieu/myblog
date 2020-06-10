@@ -40,11 +40,26 @@
     line-height: 1.58;
     word-break: break-word;
 
-    p {
+    h2, h3, h4, h5 {
         margin-top: 2em;
     }
     
+    p {
+        margin-top: 0.5em;
+        margin-bottom: 2em;
+    }
+
     a{
         color: #4092da;
+    }
+
+    strong{
+        font-weight: bold;
+    }
+
+    code {
+        background-color: rgba(255, 255, 255, 0.18);
+        border-radius: 3px;
+        padding: 2px 4px;
     }
 }

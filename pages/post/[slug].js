@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import Meta from '../../components/Meta'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
+import CodeBlock from '../../components/CodeBlock'
 import matter from 'gray-matter'
 import ReactMarkdown from 'react-markdown'
 import {getSlug, reformatDate, truncateSummary} from '../../utils/common'
@@ -58,7 +59,10 @@ export default class BlogTemplate extends PureComponent {
                     </div>
                     <div style={imageStyle} />
                     <div className={styles.content}>
-                        <ReactMarkdown source={markdownBody} />
+                        <ReactMarkdown
+                            source={markdownBody}
+                            renderers={{ code: CodeBlock }}
+                        />
                     </div>
                 </div>
                 <Footer/>

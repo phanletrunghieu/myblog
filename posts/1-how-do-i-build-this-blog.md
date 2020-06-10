@@ -1,19 +1,136 @@
 ---
 author: Hieu Phan
 date: '2020-05-22T17:06:00.000Z'
-image: /images/1-how-do-i-build-this-blog.jpg
-title: 'How do I build this blog?'
+image: /images/1-how-do-i-build-this-blog/cover.jpg
+title: 'Tôi đã tạo blog này thế nào?'
 readDuration: 20 min
 categories:
     - ReactJS
-    - Cat 2
 ---
 
-More than two decades have passed since sarah connor prevented judgment day, changed the future, and re-wrote the fate of the human race. dani ramos is living a simple life in mexico city with her brother and father when a highly advanced and deadly new terminator – a rev-9 – travels back through time to hunt and kill her. dani's survival depends on her joining forces with two warriors: grace, an enhanced super-soldier from the future, and a b.
-The term **bristlecone pine** covers three [species](https://en.wikipedia.org/wiki/Species 'Species') of [pine](https://en.wikipedia.org/wiki/Pine 'Pine') tree (family [Pinaceae](https://en.wikipedia.org/wiki/Pinaceae 'Pinaceae'), genus [_Pinus_](https://en.wikipedia.org/wiki/Pinus 'Pinus'), subsection _Balfourianae_). All three species are long-lived and highly resilient to harsh weather and bad soils. One of the three species, _Pinus longaeva_, is among the longest-lived life forms on Earth. The oldest _Pinus longaeva_ is more than 5,000 years old,[\[1\]](https://en.wikipedia.org/wiki/Bristlecone_pine#cite_note-oldest-1) making it the oldest known individual of any species.
+## Chuẩn bị
+- Kiến thức cơ bản về ReactJS, NextJS
+- Soạn thảo văn bản với markdown
+- Tài khoản Github
 
-![bali-monkey](/alfons-taekema-bali.jpg)
+## Giới thiệu
+Github có 1 chức năng là Github Page, cho phép chúng ta deploy những website tĩnh (HTML, css, javascript). Trước đây khi nhắc đến việc tạo ra 1 website tĩnh thì ta sẽ nghĩ ngay đến [GatsbyJS](https://www.gatsbyjs.org), còn NextJS là framework mạnh về việc hỗ trợ xây dựng ứng dụng React Server Side Render (SSR) và routing. Nhưng tin vui là vừa qua NextJS đã có thêm tính năng **Static Exporting**.
 
-Despite their potential age and low reproductive rate, bristlecone pines, particularly _Pinus longaeva_, are usually a [first-succession](https://en.wikipedia.org/wiki/Primary_succession 'Primary succession') species, tending to occupy new open ground.[\[2\]](https://en.wikipedia.org/wiki/Bristlecone_pine#cite_note-FEIS-2) They generally compete poorly in less-than-harsh environments, making them hard to cultivate.[\[2\]](https://en.wikipedia.org/wiki/Bristlecone_pine#cite_note-FEIS-2) In gardens, they succumb quickly to root rot.[\[3\]](https://en.wikipedia.org/wiki/Bristlecone_pine#cite_note-3) They do very well, however, where most other plants cannot even grow, such as in rocky [dolomitic](<https://en.wikipedia.org/wiki/Dolomite_(mineral)> 'Dolomite (mineral)') soils in areas with virtually no rainfall.[\[2\]](https://en.wikipedia.org/wiki/Bristlecone_pine#cite_note-FEIS-2)
+> **Static Exporting** là gì vậy? Khác gì so với SSR?
+- SSR: server nhận được request -> server render code react thành html -> trả html về client
+- Static: html được tạo ra ngay khi ta build app -> server nhận được request -> trả html về client
 
-Bristlecone pines grow in scattered [subalpine](https://en.wikipedia.org/wiki/Subalpine 'Subalpine') groves at high altitude in arid regions of the [Western United States](https://en.wikipedia.org/wiki/Western_United_States 'Western United States'). Bristlecones, along with all related species in class Pinopsida, are [cone-bearing](https://en.wikipedia.org/wiki/Conifer_cone 'Conifer cone') [seed plants](https://en.wikipedia.org/wiki/Seed_plant 'Seed plant') commonly known as [conifers](https://en.wikipedia.org/wiki/Conifer 'Conifer'); the name comes from the prickles on the female cones.[\[4\]](https://en.wikipedia.org/wiki/Bristlecone_pine#cite_note-ARKive-4)
+## Setup
+
+### Khởi tạo NextJS project
+
+```bash
+npx create-next-app
+# or
+yarn create next-app
+```
+
+Blog này sẽ được deploy lên Github Page, và để tiện nhất, nhanh nhất, nên sẽ không có chuyện gọi API và lấy data để hiển thị. Dữ liệu blog sẽ được lưu trong những file markdown, mỗi file chứa một bài post.
+
+Cấu trúc thư mục:
+- **assets:** các icon, hình ảnh để import trực tiếp vào React
+- **components:** các layout, component của blog (Header, Footer, Meta,...)
+- **data:** file `config.json` chứa các thông tin tổng quát của website (title, description, url,...)
+- **pages:** folder mặc định của NextJS. Mỗi file trong thư mục này tương ứng với 1 trang web.
+- **posts:** chứa các file markdown, nội dung của các bài post trong blog
+- **public:** chủ yếu chứa các hình ảnh chèn vào các bài post
+- **styles:** chứa các file scss, làm đẹp cho web
+
+### Config NextJS load file *.md
+
+Cài `raw-loader` cho webpack
+```bash
+yarn add raw-loader
+```
+
+Thêm nội dung sau vào file `next.config.js`. (Nếu không có thì tạo)
+
+```js
+module.exports = {
+    poweredByHeader: false,
+    webpack: function(config) {
+        config.module.rules.push({
+            test: /\.md$/,
+            use: 'raw-loader',
+        })
+        return config
+    },
+}
+```
+
+### Config NextJS load icon svg
+
+Cài `babel-plugin-inline-react-svg`
+```bash
+yarn add --dev babel-plugin-inline-react-svg
+```
+
+Thêm nội dung sau vào file `.babelrc`. (Nếu không có thì tạo)
+
+```json
+{
+    "presets": [ "next/babel" ],
+    "plugins": [ "inline-react-svg" ]
+}
+```
+
+### Cài scss
+
+Chỉ cần cài module `sass`
+
+```bash
+yarn add sass
+```
+
+## Code
+**Ý tưởng:** NextJS hỗ trợ build static thông qua 2 hàm `getStaticProps` và `getStaticPaths`. 2 hàm này được gọi khi build project. Mỗi file trong thư mục `pages` đều được NextJS hỗ trợ 2 hàm này. 
+
+- getStaticProps: với hàm này, ta sẽ đọc dữ liệu từ file .md và truyền vào props của ReactComponent. Trong hàm này ta sẽ thực hiện:
+    - Đối với trang chủ hoặc trang category, ta sẽ đọc nội dung của tất cả file *.md. Truyền data vào props
+    - Đối với trang chi tiết, ta chỉ cần đọc đúng 1 file *md. Ví dụ `/post/abc-de` thì ta cần đọc file `abc-de.md`
+- getStaticPaths: url của 1 bài post là `/post/[slug]`. Ví dụ ta có 2 bài post là `post 1` và `post 2`, thì url là `/post/post-1` và `/post/post-2`. Như vậy trong hàm này, chúng ta sẽ thực hiện các tác vụ
+    - List hết tất cả file *.md trong folder `posts`
+    - Chuẩn hoá tên file thành url. `Post 1` thành `/post/post-1`
+
+## Deploy lên Github Page
+
+Bình thường khi export project NextJS thành file html, ta sẽ dùng lệnh
+
+```bash
+next export
+```
+
+Nhưng Github Page sử dụng Jekyll, mà Jekyll thì không đọc được các file có ký tự "_" ở đầu (`_next`, `_app.js`). NextJS lại export ra rất nhiều file như thế. Nên ta cần disable Jekyll trong project.
+
+Thay đổi các scripts trong file package.json như sau:
+```json
+"scripts": {
+    "dev": "next dev",
+    "build": "next build && next export && touch out/.nojekyll",
+    "start": "next start"
+}
+```
+
+Chạy lệnh:
+```bash
+yarn build
+```
+
+NextJS sẽ export file là lưu vào folder `out`. Giờ ta chỉ cần push hết các file trong folder `out` lênn Github.
+
+![out folder](/images/1-how-do-i-build-this-blog/out-folder.png)
+
+URL Github Page sẽ có dạng https://{username}.github.io. Ví dụ: https://phanletrunghieu.github.io.
+Vậy làm sao để code trong `out` có thể truy cập được thông qua tên miền trên.
+Tạo 1 repo với lên là {username}.github.io (Ví dụ: phanletrunghieu.github.io). Và commit -> push code bên trong `out` lên.
+
+Xong!
+
+## Kết
+
+[Project mẫu](https://github.com/phanletrunghieu/myblog)
