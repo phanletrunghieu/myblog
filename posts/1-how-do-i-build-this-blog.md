@@ -3,7 +3,7 @@ author: Hieu Phan
 date: '2020-05-22T17:06:00.000Z'
 image: /images/1-how-do-i-build-this-blog/cover.jpg
 title: 'Tôi đã tạo blog này thế nào?'
-readDuration: 20 min
+readDuration: 45 min
 categories:
     - ReactJS
 ---
