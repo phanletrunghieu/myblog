@@ -6,7 +6,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Paginator from '../components/Paginator'
 
-let perPage = 3
+let perPage = 5
 
 export default class Home extends PureComponent {
     render() {

@@ -7,7 +7,7 @@ import Footer from '../../components/Footer'
 import Paginator from '../../components/Paginator'
 import { getSlug } from '../../utils/common'
 
-let perPage = 3
+let perPage = 5
 
 export default class CategoryTemplate extends PureComponent {
     render() {
