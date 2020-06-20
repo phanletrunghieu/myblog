@@ -2,7 +2,7 @@
 author: Hieu Phan
 date: '2020-06-14T11:56:00.000Z'
 image: /images/4-gitlab-cac-tinh-nang-hay-nhung-it-duoc-chu-y/cover.jpg
-title: 'Giblab: Các tính năng hay nhưng ít được chú ý'
+title: 'Gitlab: Các tính năng hay nhưng ít được chú ý'
 readDuration: 15 min
 categories:
     - Gitlab
