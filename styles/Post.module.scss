@@ -62,4 +62,13 @@
         border-radius: 3px;
         padding: 2px 4px;
     }
+
+    blockquote {
+        background-color: #000;
+        border: solid 2px #757575;
+        display: inline-block;
+        margin: 0;
+        padding: 1em;
+        position: relative;
+    }
 }
