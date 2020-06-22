@@ -74,3 +74,30 @@ docker system prune
 ```bash
 docker system prune -a
 ```
+
+## 5. Giới hạn logs của docker
+
+Khi bạn chạy lệnh `docker logs container_name`, bạn sẽ xem được logs của container đó. Mỗi 1 container sẽ có logs riêng của nó. Mặc định, docker sẽ không giớ hạn số lượng/dung lượng logs của 1 container. Logs quá nhiều dấn đến disk của bạn cũng bị chiếm nhiều dung lượng
+
+> Log là 1 trong những tác nhân gây ngốn dung lượng **một cách thầm lặng** mà bạn sẽ khó mà nghĩ đến
+
+Vì thế, ta cần giới hạn logs của mỗi container.
+
+Tìm đến file `/etc/docker/daemon.json` (nếu không có thì tạo file mới). Thêm vào file đó với nội dung như sau:
+
+```json
+{
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "10m",
+    "max-file": "3"
+  }
+}
+```
+
+- **max-file:** số lượng file logs tối đa của 1 container
+- **max-size:** dung lượng tối đa của 1 file log mà 1 container sở hữu
+
+Từ config trên => 1 container có tối đa 3 file log, 1 file log có dung lượng tối đa 10MB. => Log tối đa 30MB.
+
+Khi log đã ghi hết file thứ 3, thì file thứ 1 (cũ nhất) sẽ bị xoá để ghi log mới.
