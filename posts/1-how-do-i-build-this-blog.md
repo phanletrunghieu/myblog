@@ -2,7 +2,7 @@
 author: Hieu Phan
 date: '2020-05-22T17:06:00.000Z'
 image: /images/1-how-do-i-build-this-blog/cover.jpg
-title: 'Tôi đã tạo blog này thế nào?'
+title: 'Tôi đã tạo blog với Github và markdown thế nào?'
 readDuration: 45 min
 categories:
     - ReactJS

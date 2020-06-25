@@ -23,6 +23,7 @@ export default class CategoryTemplate extends PureComponent {
                                 image={post.frontmatter.image}
                                 title={post.frontmatter.title}
                                 date={post.frontmatter.date}
+                                readDuration={post.frontmatter.readDuration}
                                 markdownBody={post.markdownBody}
                                 slug={post.slug}
                             />
