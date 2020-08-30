@@ -71,6 +71,7 @@
     padding: 24px;
     font-size: 13px;
     color: #cfd6e1;
+    overflow: hidden;
 
     @media #{$mobile} {
         width: 100%;
