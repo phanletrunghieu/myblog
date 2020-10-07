@@ -72,3 +72,8 @@
         position: relative;
     }
 }
+
+.comments{
+    @extend .container-size;
+    background-color: #f5f2f0;
+}

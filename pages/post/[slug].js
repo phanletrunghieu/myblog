@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { Comments } from 'react-facebook';
 import Meta from '../../components/Meta'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
@@ -64,6 +65,9 @@ export default class BlogTemplate extends PureComponent {
                             renderers={{ code: CodeBlock }}
                         />
                     </div>
+                    <div className={styles.comments}>
+                        <Comments href={this.props.host + "/post/" + this.props.slug} />
+                    </div>
                 </div>
                 <Footer/>
             </div>
@@ -85,10 +89,12 @@ export async function getStaticProps(ctx) {
 
     return {
         props: {
+            slug,
             siteTitle: siteConfig.title,
             frontmatter: data.data,
             markdownBody: data.content,
             categories,
+            host: siteConfig.url,
         },
     }
 }
