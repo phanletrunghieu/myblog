@@ -26,4 +26,45 @@ I need run mariadb with primary & secondary in different nodes, but `bitnami/mar
 
 ## 3. Customize `bitnami/mariadb` chart
 
+3.1. Add primary.enabled to `values.yaml`
+
+```yaml
+primary:
+  enabled: true
+```
+
+3.2. Add condition `.Values.primary.enabled` to all file in `templates/primary`
+
+3.3. Add master's information to secondary in `values.yaml`.
+
+```yaml
+secondary:
+  master:
+    host:
+    port:
+```
+
+3.4. Update env in `templates/secondary/statefulset.yaml`
+
+```yaml
+env:
+  - name: MARIADB_MASTER_HOST
+    value: {{ default (include "mariadb.primary.fullname" .) .Values.secondary.master.host }}
+  - name: MARIADB_MASTER_PORT_NUMBER
+    value: {{ default .Values.primary.service.port .Values.secondary.master.port | quote }}
+```
+
 See my final custom chart on [Github](https://github.com/phanletrunghieu/multi-region-k8s)
+
+## 4. Deploy
+
+Switch `kubectl` to cluster 1 and run
+
+```yaml
+helm -n app  upgrade --install app . --create-namespace -f values.region-1.yaml
+```
+
+Switch `kubectl` to cluster 2 and run
+```yaml
+helm -n app  upgrade --install app . --create-namespace -f values.region-2.yaml
+```

@@ -18,9 +18,9 @@ export default class PostBox extends PureComponent {
                             <span className={styles.readDuration}>{readDuration}</span>
                         </header>
                         <div className={styles.body}>
-                            <ReactMarkdown
+                            {/* <ReactMarkdown
                                 source={truncateSummary(markdownBody)}
-                            />
+                            /> */}
                         </div>
                     </div>
                 </div>
