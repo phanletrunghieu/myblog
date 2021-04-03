@@ -41,6 +41,25 @@ Chuyển hướng qua tìm opensource thì thấy có thằng Bitwarden. App nà
 - EC2 t2.micro của Amazon
 - f1-micro của Google Cloud
 
+### Chuẩn bị 1 domain
+
+Ví dụ `bws.example.com`
+
+### Chuẩn bị thêm
+
+- docker 19.03+
+- docker-compose 1.26+
+- nginx 1.14+
+- certbot
+
+```
+sudo add-apt-repository ppa:certbot/certbot
+sudo apt-get update
+sudo apt-get install python-certbot-nginx
+```
+
+- 1 SMTP account: có thể dùng `smtp.gmail.com` với account gmail luôn
+
 ### Deploy Bitwarden server
 
 - Official (C#): https://github.com/bitwarden/server
@@ -48,7 +67,7 @@ Chuyển hướng qua tìm opensource thì thấy có thằng Bitwarden. App nà
 
 Có 2 option, ở đây mình dùng server Rust cho gọn nhẹ.
 
-Chạy file `docker-compose.yaml`
+Tạo 1 file `docker-compose.yaml`
 
 ```yaml
 version: '3'
@@ -68,7 +87,7 @@ services:
       SHOW_PASSWORD_HINT: 'true'
       ROCKET_WORKERS: 20
       ADMIN_TOKEN: 'xxxxxxxhieudeptraixxxxxxx'
-      DOMAIN: https://xxxx.xxxx.xxx
+      DOMAIN: https://bws.example.com
       SMTP_HOST: smtp.gmail.com
       SMTP_FROM: abc@gmail.com
       SMTP_PORT: 587
@@ -77,7 +96,10 @@ services:
       SMTP_PASSWORD: xxxxx
 ```
 
-nginx config
+Chạy file docker-compose `docker-compose up -d`
+
+
+Tạo 1 file `bitwarden` tại `/etc/nginx/sites-enabled`
 
 ```nginx
 server {
@@ -119,11 +141,17 @@ server {
 }
 ```
 
-Config thêm https cho an toàn hơn
+Apply nginx config: `sudo nginx -s reload`
+
+### Config thêm https cho an toàn hơn
+
+```
+sudo certbot --nginx -d bws.example.com
+```
 
 ### Tạo user
 
-Vào https://your-domain.com/admin, điền admin token trong file docker-compose.yaml vào.
+Vào https://bws.example.com/admin, điền admin token trong file docker-compose.yaml vào.
 
 ![Đăng ký/đăng nhập Bitwarden](/images/8-toi-quan-ly-mat-khau-cua-minh-the-nao/1-dang-nhap.png)
 
